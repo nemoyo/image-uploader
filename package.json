@@ -4,19 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-<<<<<<< HEAD
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel": "babel babel/babel.js --out-file babel/dist/babel.js",
     "build": "webpack --config webpack.config.js"
-=======
-    "test": "echo \"Error: no test specified\" && exit 1"
->>>>>>> origin/master
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-<<<<<<< HEAD
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.3",
     "@babel/polyfill": "^7.12.1",
@@ -26,9 +21,7 @@
     "webpack": "^5.4.0",
     "webpack-cli": "^4.2.0",
     "whatwg-fetch": "^3.5.0"
-=======
     "webpack": "^5.4.0",
     "webpack-cli": "^4.2.0"
->>>>>>> origin/master
   }
 }
