@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import 'whatwg-fetch';
 import '@babel/polyfill';
-=======
->>>>>>> origin/master
 import {unCreateLoading, createLoading, resultPage} from "./base.js";
 
 const fileSelect = document.getElementById('file-select');
