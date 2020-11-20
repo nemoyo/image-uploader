@@ -1,0 +1,189 @@
+/*ベース*/
+* {
+	margin:0;
+	padding:0;
+}
+
+body {
+	background-color: #FAFAFB;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 15px;
+}
+/*レイアウト*/
+.ly_cont {
+  margin:0 auto;
+	margin-top:20px;
+  padding-top:10px;
+  padding-bottom:10px;
+	text-align: center;
+	width: 460px;
+	background: #fff;
+	box-shadow:5px 5px 10px;
+}
+/*モジュール*/
+.file-input {
+	color: #828a91;
+}
+.file-input.hide {
+  display:none;
+}
+
+.file-input .main-title {
+  font-size:25px;
+  margin-top:20px;
+  color:#4F4F4F;
+}
+
+.file-input .image-wrapper {
+  margin-left :30px;
+  margin-right:30px;
+  margin-top:1em;
+  margin-bottom:1em;
+  padding: 100px 0;
+	background-color: #F6F8FB;
+	border: 2px dashed;
+	border-color: #97BEF4;
+	border-radius: 8px;
+}
+
+.file-input .image-wrapper.drag {
+	background-color: #f0f0f0;
+}
+
+.upload-file {
+  display: inline-block;
+  cursor: pointer; /* カーソルを指に */
+  margin: 1em 0; /* まわりの余白 */
+  padding: .7em 1em; /* 文字まわりの余白 */
+  line-height: 1.4; /* 行間 */
+  background: #3e8bff; /* 背景色 */
+  color: #FFF; /* 文字色 */
+  font-size: 0.95em; /* フォントサイズ */
+  border-radius: 2.5em; /* 角の丸み */
+  transition: 0.2s; /* ホバーをなめらかに */
+}
+
+.upload-file:hover {
+  box-shadow: 0 8px 10px -2px rgba(0, 0, 0, 0.2); /* 影を表示 */
+}
+.upload-file input {
+  display:none;
+}
+
+/*上記はアブソリュートでボタンを装飾したが、上記の書き方のほうがよい*/
+/*.file-input .upload-file {*/
+/*  margin-left :30px;*/
+/*  margin-right:30px;*/
+/*  margin:0 auto;*/
+/*  width:100px;*/
+/*  height:40px;*/
+/*  background-color:#2F80ED;*/
+/*  border-radius:8px;*/
+/*  position:relative*/
+/*}*/
+/*.file-input .upload-file .image {*/
+/*  text-align:center;*/
+/*  color:#FFFFFF;*/
+/*  line-height:40px;*/
+/*}*/
+
+/*.file-input .file-select {*/
+/*    top:0;*/
+/*    left:0;*/
+/*    width:100px;*/
+/*    height:40px;*/
+/*    opacity:0;*/
+/*    position:absolute;*/
+/*}*/
+
+.result {
+	padding: 30px;
+	color: #828a91;
+}
+.result.hide {
+  display:none;
+}
+
+.result .copylink {
+  width:70%;
+  padding:10px 15px;
+  border-radius:3px;
+  border: 2px solid #ddd;
+  box-sizing:border-box;
+}
+
+.result .copylink-button {
+  padding: 10px 15px;
+  border-radius:25px;
+  color: #FFFFFF;
+  background-color:#2F80ED;
+  border:none;
+}
+
+.loader-wrap {
+	position: fixed;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+}
+
+.loader,
+.loader:before,
+.loader:after {
+  border-radius: 50%;
+  width: 2.5em;
+  height: 2.5em;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation: load7 1.8s infinite ease-in-out;
+  animation: load7 1.8s infinite ease-in-out;
+}
+.loader {
+  color: #100f0f;
+  font-size: 10px;
+  margin: 80px auto;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+.loader:before,
+.loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+.loader:before {
+  left: -3.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+.loader:after {
+  left: 3.5em;
+}
+@-webkit-keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
+@keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
