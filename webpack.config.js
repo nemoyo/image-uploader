@@ -1,5 +1,4 @@
 module.exports = {
-<<<<<<< HEAD
 	  entry: './js/app.js',
 	  mode: 'development',
 	  devtool: 'inline-source-map',
@@ -27,12 +26,3 @@ module.exports = {
 		    },
 	  target: ["web","es5"],
 };
-=======
-  entry: './js/app.js', 
-  output: {
-    path: __dirname + '/dist',
-    filename: 'sample.js'
-  }
-};
-
->>>>>>> origin/master
