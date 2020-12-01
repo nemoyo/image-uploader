@@ -6,17 +6,16 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="css/style.css">
+	<link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
 	<!--type="module"を追加することでbody終了タグの直前に入れなくてもよい-->
-	<!--<script type="module" src="js/app.js"></script>-->
-	<!--<script type="module" src="js/base.js"></script>-->
-	<!--<script type="module" src="dist/sample.js"></script>-->
+	<script type="module" src="js/app.js"></script>
+	<script type="module" src="js/base.js"></script>
 </head>
 <body>
 	<div id="loader-wrap" class="loader-wrap">
 		<div id="loader" class="loader"></div>
 	</div>
 	<div id="main" class="ly_cont">
-		
 		<div id="file-input" class="file-input">
 			<p class="main-title">Upload Your Image</p>
 			<p class="sub-title">File Should be jpeg,png</p>
@@ -24,11 +23,6 @@
 				<div class="drag-text">Drug & Drop your image here</div>
 			</div>
 			<p>or</p>
-			<!--<div class="upload-file">-->
-			<!--	<div class="image">Choose file</div>-->
-			<!--	<input type="file" id="file-select" class="file-select" name="file" accept="image/*">-->
-				
-			<!--</div>-->
 			<label class="upload-file">Choose file
 				<input type="file" id="file-select" accept="image/*" />
 			</label>
@@ -42,7 +36,17 @@
 			<input type="button" id="copylink-button" class="copylink-button" name="copylink-button" value="copy link"/>
 		</div>
 	</div>
-	<!--<script src="js/app.js"></script>-->
-	<script src="dist/bundle.js"></script>
+	<!-- エラーメッセージポップアップ用 -->
+	<div class="popup" id="js-popup">
+		<div class="popup-inner">
+		  <div class="close-btn" id="js-close-btn"><i class="fas fa-times"></i></div>
+		  <p id="errormsg">この画面はエラーメッセージです。</p>
+		  <!-- <a href="#"><img src="./img/popup.jpg" alt="ポップアップ画像"></a> -->
+		</div>
+		<div class="black-background" id="js-black-bg"></div>
+	</div>
+
+	<!-- <script src="js/app.js"></script> -->
+	<!-- <script src="dist/bundle.js"></script> -->
 </body>
 </html>
