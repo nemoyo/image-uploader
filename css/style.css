@@ -24,9 +24,6 @@ body {
 .file-input {
 	color: #828a91;
 }
-.file-input.hide {
-  display:none;
-}
 
 .file-input .main-title {
   font-size:25px;
@@ -73,9 +70,6 @@ body {
 .result {
 	padding: 30px;
 	color: #828a91;
-}
-.result.hide {
-  display:none;
 }
 
 .result .copylink {

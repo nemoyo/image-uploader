@@ -13,10 +13,6 @@ header('Content-Type: text/plain; charset=utf-8');
 // $stmt = $pdo->prepare($sql);
 // $stmt->execute();
 
-// if (!isset($_FILES['image']['error'])) || (!is_int($_FILES['image']['error'])) {
-//     error_log('errorcheck',3,"./error.log");
-// }
-
 try {
     $errorCode = array("status"=>"OK","message"=>"");
     // 未定義である・複数ファイルである・$_FILES Corruption 攻撃を受けた
@@ -55,9 +51,11 @@ try {
         throw new RuntimeException('ファイル保存時にエラーが発生しました');
     }
 
-    // 保存したURLを返す
-    $domain = $_SERVER['HTTP_HOST'];
-    // echo json_encode('https://'. $domain . str_replace('.','',$path) );
+    // HTTPかHTTPSはアクセスしてきたブラウザによって変更したい_
+    $url = (empty($_SERVER["HTTPS"]) ? "http://" : "https://"). $_SERVER['HTTP_HOST']  . mb_substr($path,1);
+    error_log($url);
+    $errorCode["message"] = $url;
+    echo json_encode($errorCode);
     
 
 } catch (RuntimeException $e) {
@@ -75,9 +73,6 @@ try {
 // $stmt->bindValue(':img_name', $fileName);
 // $stmt->execute();
 // $stmt->debugDumpParams();
-
-// error_log($sql);
-
 
 ?>
 

@@ -1,6 +1,6 @@
 // import 'whatwg-fetch';
 // import '@babel/polyfill';
-import {unCreateLoading, createLoading, resultPage} from "./base.js";
+import {unCreateLoading, createLoading, displayMessage} from "./base.js";
 
 const fileSelect = document.getElementById('file-select');
 const copylinkButton = document.getElementById('copylink-button');
@@ -9,11 +9,18 @@ const copylinkButton = document.getElementById('copylink-button');
 async function uploadImage(inputFile) {
 	const formData = new FormData();
 	formData.append('image',inputFile);
-	// console.log(inputFile);
 	try {
 		const response = await window.fetch('upload.php', {method: 'POST', body:formData});
 		const responseText = await response.json();
-		console.log(responseText);
+		if (responseText['status'] == "NG") {
+			displayMessage(responseText['message']);
+			return;
+		}
+		// 連想配列のjsonデータをfor .. in で取得する方法
+		// for(let key in json) {
+		// 	 console.log(key + ':' + json[key]);
+		// }
+
 		// XMLで非同期処理を書く場合
 		// const xhr = new XMLHttpRequest();
 		// // 以下を記載すると「Missing boundary in multipart/form-data POST data in Unknown」エラーになる
@@ -29,29 +36,40 @@ async function uploadImage(inputFile) {
 		// xhr.open('POST', 'upload.php', true);
 		// xhr.onload = function() {
 		// 	if (xhr.status === 200) {
-		const inputPage = document.getElementById('file-input');
-		inputPage.classList.add('hide');
-		resultPage.classList.remove('hide');
-	
-		const preview = document.getElementById('preview');
-		const reader = new FileReader();
 		
-		reader.onload = function(e) {
-			const imageUrl = e.target.result;
-			const img = document.createElement('img');
-			img.setAttribute("width","400px");
-			img.src = imageUrl;
-			preview.appendChild(img);
-		}
-		reader.readAsDataURL(inputFile);
+		// 結果領域の表示
+		// CSSにdisplay:noneを追加してそれをclasslist.add remove するよりもstyle.display のほうが良いと思う
+		document.getElementById('file-input').style.display = "none";
+		document.getElementById('result').style.display = "block";
+	
+		// サーバから取得したpathの画像を表示する
+		const filePath = responseText['message'];
+		const preview = document.getElementById('preview');
+		const img = document.createElement('img');
+		img.src = filePath;
+		img.setAttribute("width","400px");
+		preview.appendChild(img);
+
+		// input=fileで指定した画像を表示する
+		// const preview = document.getElementById('preview');
+		// const reader = new FileReader();
+		// reader.onload = function(e) {
+		// 	const imageUrl = e.target.result;
+		// 	const img = document.createElement('img');
+		// 	img.setAttribute("width","400px");
+		// 	img.src = imageUrl;
+		// 	preview.appendChild(img);
+		// }
+		// reader.readAsDataURL(inputFile);
+
 	// 		console.log('xhr.status = ' + xhr.status);
 	// 		console.log('xhr.responseText = ' + xhr.responseText);
 		const copylink = document.getElementsByName('copylink');
 		// copylink.item(0).value = JSON.parse(xhr.responseText);
-		copylink.item(0).value = responseText;
+		copylink.item(0).value = filePath;
 		
 		const resultStatus = document.getElementById('result-status');
-		resultStatus.innerHTML = "Upload SuccessFully!";
+		resultStatus.textContent = "Upload SuccessFully!";
 				
 		// 	} else {
 		// 		console.log('error');
@@ -102,26 +120,4 @@ document.addEventListener('DOMContentLoaded',() => {
 	});
 });
 
-// エラーメッセージを表示する関数
-function displayMessage(msg) {
-	const popup = document.getElementById('js-popup');
-	if(!popup) return;
-	popup.classList.add('is-show');
-  
-	const blackBg = document.getElementById('js-black-bg');
-	const closeBtn = document.getElementById('js-close-btn');
-  
-	closePopUp(blackBg);
-	closePopUp(closeBtn);
-
-	const errormsg = document.getElementById('errormsg');
-	errormsg.textContent = msg;
-  
-	function closePopUp(elem) {
-	  if(!elem) return;
-	  elem.addEventListener('click', function() {
-		popup.classList.remove('is-show');
-	  })
-	}
-}
 
