@@ -5,13 +5,16 @@ header('Content-Type: text/plain; charset=utf-8');
 // error_log($_POST['image'] ,0);
 // error_log($_FILES['file'] ,0);
 
-// データベースへの接続
-// $user = 'root';
-// $password = 'Root#123';
-// $pdo = new PDO('mysql:host=127.0.0.1;dbname=image_uploader;charset=utf8',$user,$password);
-// $sql = 'select * from image_data';
-// $stmt = $pdo->prepare($sql);
-// $stmt->execute();
+error_log('foooo'."\n");
+// // データベースへの接続
+try {
+    $user = 'root';
+    $password = 'Root#123';
+    $pdo = new PDO('mysql:host=db;dbname=imageuploader;charset=utf8',$user,$password);
+    error_log('connect success' . "\n");
+} catch (PDOException $e) {
+    error_log('connect failed: '. $e->getMessage() . "\n");
+}
 
 try {
     $errorCode = array("status"=>"OK","message"=>"");
@@ -50,29 +53,31 @@ try {
     ) {
         throw new RuntimeException('ファイル保存時にエラーが発生しました');
     }
+    // 保存したpathをデータベースに保存する
+    $create_date = new DateTime();
+    $create_date = $create_date->format('Y-m-d H:i:s');
+    error_log('create_date: ' .$create_date ."\n");
+
+    $sql = 'INSERT INTO images (upload_path,create_date) VALUES (:upload_path, :create_date)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':upload_path', $path);
+    $stmt->bindValue(':create_date', $create_date);
+    $stmt->execute();
 
     // HTTPかHTTPSはアクセスしてきたブラウザによって変更したい_
     $url = (empty($_SERVER["HTTPS"]) ? "http://" : "https://"). $_SERVER['HTTP_HOST']  . mb_substr($path,1);
-    error_log($url);
+    error_log('image upload success : upload path is :' .$url ."\n");
     $errorCode["message"] = $url;
-    echo json_encode($errorCode);
-    
+    echo json_encode($errorCode);    
 
 } catch (RuntimeException $e) {
     //throw $th;
     $errorCode["status"] = "NG";
     $errorCode["message"] = $e->getMessage();
     echo json_encode($errorCode);
+} catch (PDOException $e) {
+    error_log('insert failed: '. $e->getMessage() . "\n");
 }
-
-// error_log($fileContent2);
-
-// $sql = 'INSERT INTO image_data (img,img_name) VALUES (:img_data, :img_name)';
-// $stmt = $pdo->prepare($sql);
-// $stmt->bindValue(':img_data', $fileContent2);
-// $stmt->bindValue(':img_name', $fileName);
-// $stmt->execute();
-// $stmt->debugDumpParams();
 
 ?>
 

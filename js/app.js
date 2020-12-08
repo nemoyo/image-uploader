@@ -1,6 +1,6 @@
 // import 'whatwg-fetch';
 // import '@babel/polyfill';
-import {unCreateLoading, createLoading, displayMessage} from "./base.js";
+import { displayMessage} from "./base.js";
 
 const fileSelect = document.getElementById('file-select');
 const copylinkButton = document.getElementById('copylink-button');
@@ -9,12 +9,19 @@ const copylinkButton = document.getElementById('copylink-button');
 async function uploadImage(inputFile) {
 	const formData = new FormData();
 	formData.append('image',inputFile);
+
+	// Uploadingを表示する
+	const main = document.getElementById('main');
+	main.style.display = "none";
+	const loader = document.querySelector('.loader');
+	loader.style.display = "block";
+
 	try {
 		const response = await window.fetch('upload.php', {method: 'POST', body:formData});
 		const responseText = await response.json();
 		if (responseText['status'] == "NG") {
 			displayMessage(responseText['message']);
-			return;
+			throw responseText['message'];
 		}
 		// 連想配列のjsonデータをfor .. in で取得する方法
 		// for(let key in json) {
@@ -36,12 +43,7 @@ async function uploadImage(inputFile) {
 		// xhr.open('POST', 'upload.php', true);
 		// xhr.onload = function() {
 		// 	if (xhr.status === 200) {
-		
-		// 結果領域の表示
-		// CSSにdisplay:noneを追加してそれをclasslist.add remove するよりもstyle.display のほうが良いと思う
-		document.getElementById('file-input').style.display = "none";
-		document.getElementById('result').style.display = "block";
-	
+			
 		// サーバから取得したpathの画像を表示する
 		const filePath = responseText['message'];
 		const preview = document.getElementById('preview');
@@ -49,6 +51,7 @@ async function uploadImage(inputFile) {
 		img.src = filePath;
 		img.setAttribute("width","400px");
 		preview.appendChild(img);
+
 
 		// input=fileで指定した画像を表示する
 		// const preview = document.getElementById('preview');
@@ -70,22 +73,26 @@ async function uploadImage(inputFile) {
 		
 		const resultStatus = document.getElementById('result-status');
 		resultStatus.textContent = "Upload SuccessFully!";
-				
+		
 		// 	} else {
 		// 		console.log('error');
 		// 	}
 		// };
-		
+		// 結果領域の表示
+		main.style.display = "";
+		document.getElementById('file-input').style.display = "none";
+		document.getElementById('result').style.display = "block";
+		loader.style.display = "none";
 		// xhr.send(formData);
 	} catch(err) {
 		console.log(err);
+		main.style.display = "";
+		loader.style.display = "none";
 	}
 }
 
 const handleFileSelect = () => {
-	createLoading();
 	uploadImage(fileSelect.files[0]);
-	unCreateLoading();
 };
 
 // イベント系の処理は後半の行にした方がよい
@@ -111,12 +118,11 @@ document.addEventListener('DOMContentLoaded',() => {
 	uploadArea.addEventListener('drop',(event) => {
 		//下記のコードを記載するとファイルドロップ時に別タブがひらかない
 		event.preventDefault();
-		createLoading();
 
 		const input = document.querySelectorAll('input[name="file"]');
 		input.files = event.dataTransfer.files;
 		uploadImage(input.files[0]);
-		unCreateLoading();
+		
 	});
 });
 
